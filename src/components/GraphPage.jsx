@@ -3,6 +3,10 @@ import Page from './Page'
 import ErrorMessage from './ErrorMessage'
 
 export default class GraphPage extends Component {
+  componentDidMount(){
+    this.props.takeAction('refreshGraph')
+  }
+
   render(){
     const { takeAction, error } = this.props
 

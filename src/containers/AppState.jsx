@@ -42,6 +42,11 @@ const actions = {
     await loadResource.call(this, {name: 'stuff'})
   },
 
+  async refreshGraph(){
+    // graph validation goes here
+    this.setState({graphDirty: false})
+  },
+
 }
 
 async function loadResource(options = {}){

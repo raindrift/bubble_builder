@@ -19,6 +19,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import grey from '@material-ui/core/colors/grey';
 import deepPurple from '@material-ui/core/colors/deepPurple';
+import green from '@material-ui/core/colors/green';
 
 // import TopNavIcon from './TopNavIcon';
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
   topBar: {
     backgroundColor: deepPurple[800],
-    color: grey[50],
+    color: grey[100],
   },
   topBarGrid: {
     // paddingTop: 3,
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuButtonSelected: {
     marginRight: theme.spacing(1),
-    color: deepPurple[100],
+    color: green[800],
     padding: 5,
   },
   title: {
@@ -66,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 
 function NavButton({ path, label, icon, selected, ...props }){
   const classes = useStyles();
-  const currentPath = window.location.pathname.split('/app')[1] || '/'
+  const currentPath = `/${window.location.pathname.split('/')[1] || ''}`
 
   return <IconButton
     {...props}
@@ -83,7 +84,7 @@ function NavButton({ path, label, icon, selected, ...props }){
 
 export default function TopNav({ loading }) {
   const classes = useStyles();
-  const path = window.location.pathname.split('/app')[1] || '/'
+  const path = window.location.pathname.split('/')[1] || ''
 
   let buttons = [
     <NavButton
@@ -137,13 +138,13 @@ export default function TopNav({ loading }) {
   )
 
   let title = ''
-  if(path.startsWith('/new')) {
+  if(path.startsWith('new')) {
     title = 'new'
-  } else if(path.startsWith('/people')) {
+  } else if(path.startsWith('people')) {
     title = 'people'
-  } else if(path.startsWith('/graph')) {
+  } else if(path.startsWith('graph')) {
     title = 'graph'
-  } else if(path.startsWith('/share')) {
+  } else if(path.startsWith('share')) {
     title = 'share'
   }
 

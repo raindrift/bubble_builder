@@ -15,7 +15,7 @@ const styles = {
 
 export default function HomeScreen(props) {
   return (
-    <Link href={'/'}>
+    <Link href={'/new'}>
       <div style={styles.home}>
         (home screen)
       </div>
