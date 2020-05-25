@@ -153,3 +153,5 @@ yarn-error.log*
 
 venv
 __pycache__
+
+report.*.json

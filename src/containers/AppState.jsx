@@ -47,6 +47,10 @@ const actions = {
     this.setState({graphDirty: false})
   },
 
+  async addPerson(person){
+
+  }
+
 }
 
 async function loadResource(options = {}){
