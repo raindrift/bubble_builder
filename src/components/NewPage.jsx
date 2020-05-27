@@ -13,11 +13,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
-import Typography from '@material-ui/core/Typography';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -68,9 +66,16 @@ function PersonForm({graph, takeAction, redirect}) {
   }
 
   const handleAdd = () => {
-    const edges = map(keys(contactFrequency), (nodeId) => {
-      return({node: graph.nodesById[nodeId], details: {days_per_week: contactFrequency[nodeId]}})
-    })
+    let edges = []
+    for (let nodeId of keys(contactFrequency)) {
+      const days = contactFrequency[nodeId]
+      if(days > 0) {
+        edges.append({
+          node: graph.nodesById[nodeId],
+          details: {days_per_week: days},
+        })
+      }
+    }
 
     if(isEmpty(personDetailsErrors.fields)) {
       takeAction('addNode', {node: personDetails, edges, redirect: '/graph'})
@@ -122,9 +127,9 @@ function PersonForm({graph, takeAction, redirect}) {
         <ListItemText primary={node.details.name} />
         <ListItemSecondaryAction>
           <TextField
-            value={contactFrequency[node.id] == undefined ? 0 : contactFrequency[node.id]}
+            value={contactFrequency[node.id] === undefined ? 0 : contactFrequency[node.id]}
             margin="dense"
-            label="Frequency"
+            label="days per week"
             type="text"
             variant="filled"
             onChange={(e) => handleFrequencyChange(node, e.target.value)}
