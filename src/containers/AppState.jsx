@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
+import Graph from '../graph'
 
-import _ from 'lodash';
+// import _ from 'lodash';
 
 export default class AppState extends Component {
   constructor(){
@@ -38,57 +39,87 @@ export default class AppState extends Component {
 // Actions that modify the app state go here.
 const actions = {
 
-  async loadStuff(){
-    await loadResource.call(this, {name: 'stuff'})
+  // async loadStuff(){
+  //   await loadResource.call(this, {name: 'stuff'})
+  // },
+
+  async resetRedirect() {
+    this.setState({redirect: undefined})
   },
 
   async refreshGraph(){
-    // graph validation goes here
-    this.setState({graphDirty: false})
+    // TODO: graph validation goes here
+    let newState = {}
+    if(!this.state.graph) {
+      newState.graph = new Graph()
+    }
+    newState.graphDirty = false
+    this.setState(newState)
   },
 
-  async addPerson(person){
+  async addNode({node, edges, redirect}){
+    // edge is obj of {node, details}
+    const result = this.state.graph.addNode(node)
+    if(result.error) {
+      this.setState({
+        loading: false,
+        error: result.error,
+      })
+    } else {
+      for (let edge of edges) {
+        result.node.addEdge(edge)
+      }
 
-  }
-
-}
-
-async function loadResource(options = {}){
-  let {
-    name,
-    endpoint = `/${_.snakeCase(name)}`,
-  } = options
-  if(options['id']) {
-    endpoint = `${endpoint}/${options['id']}`;
-  }
-  const capitalizedName = `${name[0].toUpperCase()}${name.slice(1)}`
-  this.setState({
-    [`loading${capitalizedName}`]: true,
-    loading: true,
-    error: undefined,
-  });
-  const response = await apiRequest('get', endpoint)
-  this.setState({
-    [`loading${capitalizedName}`]: false,
-    loading: false,
-    error: response.error,
-    [name]: response[name],
-  });
-}
-
-async function apiRequest(method, path, body){
-  //console.log('apiRequest', {method, path, body});
-  const response = await fetch(
-    `/api${path}`,
-    {
-      method,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: body ? JSON.stringify(body) : undefined,
+      this.setState({
+        loading: false,
+        redirect: redirect
+      })
     }
-  )
-  console.log('apiRequest', {method, path, body, response})
-  return await response.json()
+  },
+
+  async resetError(){ // call when error message is closed
+    this.setState({error: false})
+  },
+
 }
+
+// TODO(raindrift): will use these later, commenting to remove warnings
+// async function loadResource(options = {}){
+//   let {
+//     name,
+//     endpoint = `/${_.snakeCase(name)}`,
+//   } = options
+//   if(options['id']) {
+//     endpoint = `${endpoint}/${options['id']}`;
+//   }
+//   const capitalizedName = `${name[0].toUpperCase()}${name.slice(1)}`
+//   this.setState({
+//     [`loading${capitalizedName}`]: true,
+//     loading: true,
+//     error: undefined,
+//   });
+//   const response = await apiRequest('get', endpoint)
+//   this.setState({
+//     [`loading${capitalizedName}`]: false,
+//     loading: false,
+//     error: response.error,
+//     [name]: response[name],
+//   });
+// }
+
+// async function apiRequest(method, path, body){
+//   //console.log('apiRequest', {method, path, body});
+//   const response = await fetch(
+//     `/api${path}`,
+//     {
+//       method,
+//       headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json;charset=UTF-8',
+//       },
+//       body: body ? JSON.stringify(body) : undefined,
+//     }
+//   )
+//   console.log('apiRequest', {method, path, body, response})
+//   return await response.json()
+// }

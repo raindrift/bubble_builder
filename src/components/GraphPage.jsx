@@ -8,11 +8,15 @@ export default class GraphPage extends Component {
   }
 
   render(){
-    const { takeAction, error } = this.props
+    const { graph, takeAction, error } = this.props
 
+    console.dir(graph)
     return <Page>
       <ErrorMessage error={error} takeAction={takeAction} />
       Graph
+      <pre>
+        {JSON.stringify(graph)}
+      </pre>
     </Page>
   }
 }

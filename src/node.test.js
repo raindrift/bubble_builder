@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import Node from './node';
 
 describe('Node', () => {
@@ -12,7 +13,7 @@ describe('Node', () => {
   it('does not duplicate edges', () => {
     alice.addEdge({node: bob, details: {risk: 0.47}})
     alice.addEdge({node: bob, details: {risk: 0.55}})
-    expect(Object.values(alice.edges).length).toEqual(1)
+    expect(_.values(alice.edges).length).toEqual(1)
   })
 
   it('has bidirectional contact relationships', () => {

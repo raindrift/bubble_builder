@@ -9,7 +9,7 @@ export default class Edge {
     if(! this.nodes.has(thisNode)) return null
 
     for (let node of this.nodes) {
-      if(node != thisNode) return node
+      if(node !== thisNode) return node
     }
   }
 }

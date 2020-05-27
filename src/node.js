@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import Edge from './edge'
 
 export default class Node {
@@ -16,7 +17,7 @@ export default class Node {
 
   contacts = () => {
     let contacts = new Set()
-    for (let edge of Object.values(this.edges)) {
+    for (let edge of _.values(this.edges)) {
       const contact = edge.adjacent(this)
       contacts.add(contact)
     }

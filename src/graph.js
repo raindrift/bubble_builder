@@ -1,5 +1,5 @@
 import Node from './node'
-import Edge from './edge'
+import { values } from 'lodash'
 
 export default class Graph {
   constructor() {
@@ -9,17 +9,22 @@ export default class Graph {
   }
 
   addNode = (person) => {
-    if(this.nodesByName[person.name]) {
-      return({error: 'A person with that name is already present'})
+    if(this.nodesByName[person.name.toLowerCase()]) {
+      return({error: 'A person with that name is already present', node: undefined})
     }
 
     person.id = this.nextId
     this.nextId++
 
     const node = new Node(person)
-    this.nodesByName[person.name] = node
+    this.nodesByName[person.name.toLowerCase()] = node
     this.nodesById[person.id] = node
 
-    return node
+    return({error: undefined, node})
+  }
+
+  // nodes as a list
+  nodes = () => {
+    return values(this.nodesById)
   }
 }
