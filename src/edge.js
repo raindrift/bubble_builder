@@ -2,7 +2,12 @@ export default class Edge {
   constructor({nodes, details}) {
     this.details = details
     this.nodes = new Set()
-    for (let node of nodes) this.nodes.add(node)
+    let ids = []
+    for (let node of nodes) {
+      this.nodes.add(node)
+      ids.push(node.id)
+    }
+    this.id = ids.join('-')
   }
 
   adjacent = (thisNode) => {

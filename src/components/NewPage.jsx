@@ -70,7 +70,7 @@ function PersonForm({graph, takeAction, redirect}) {
     for (let nodeId of keys(contactFrequency)) {
       const days = contactFrequency[nodeId]
       if(days > 0) {
-        edges.append({
+        edges.push({
           node: graph.nodesById[nodeId],
           details: {days_per_week: days},
         })

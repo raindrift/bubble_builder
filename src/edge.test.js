@@ -5,14 +5,15 @@ describe('Edge', () => {
   let [alice, bob, edge] = [null, null, null]
 
   beforeEach(() => {
-    alice = new Node({name: 'Alice', id: 1})
-    bob = new Node({name: 'Bob', id: 2})
+    alice = new Node({name: 'Alice'}, 1)
+    bob = new Node({name: 'Bob'}, 2)
     edge = new Edge({nodes: [alice, bob], details: {foo: 'bar'}})
   })
 
   it('stores nodes', () => {
     expect(edge.nodes).toContain(alice)
     expect(edge.nodes).toContain(bob)
+    expect(edge.id).toEqual('1-2')
   })
 
   describe('.adjacent', () => {

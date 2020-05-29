@@ -5,9 +5,14 @@ describe('Node', () => {
   let [alice, bob, carol] = [null, null, null]
 
   beforeEach(() => {
-    alice = new Node({name: 'Alice', id: 1})
-    bob = new Node({name: 'Bob', id: 2})
-    carol = new Node({name: 'Carol', id: 3})
+    alice = new Node({name: 'Alice'}, 1)
+    bob = new Node({name: 'Bob'}, 2)
+    carol = new Node({name: 'Carol'}, 3)
+  })
+
+  it('has ids', () => {
+    expect(alice.id).toEqual(1)
+    expect(bob.id).toEqual(2)
   })
 
   it('does not duplicate edges', () => {

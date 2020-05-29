@@ -2,16 +2,16 @@ import _ from 'lodash'
 import Edge from './edge'
 
 export default class Node {
-  constructor(details) {
+  constructor(details, id) {
     this.details = details
-    this.id = details.id
+    this.id = id
     this.edges = {}
   }
 
   addEdge = ({node, details}) => {
     const edge = new Edge({nodes: [this, node], details})
     this.edges[node.id] = edge
-    node.edges[this.id]= edge
+    node.edges[this.id] = edge
     return edge
   }
 
