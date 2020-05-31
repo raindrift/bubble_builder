@@ -1,11 +1,15 @@
 import Node from './node'
 import { values } from 'lodash'
+import { factors } from './factors'
 
 export default class Graph {
   constructor() {
     this.nodesByName = {}
     this.nodesById = {}
     this.nextId = 1
+
+    this.daysToSimulate = 30
+    this.iterations = 10000
   }
 
   addNode = (person) => {
@@ -39,5 +43,42 @@ export default class Graph {
       }
     }
     return allEdges
+  }
+
+  updateNodes = (day) => {
+    // try to infect/quarantine all individuals for a given day
+    for (let node of values(this.nodesById)) {
+      node.stepInfection(day)
+    }
+  }
+
+  tryTransmission = (day) => {
+    for (let node of values(this.nodesById)) {
+      if(node.infected) {
+        for(let edge of values(node.edges)) {
+          const contact = edge.adjacent(node)
+          if(!contact.infected) {
+            const quarantineFactor = contact.quarantined ? factors.quarantine_impact.value : 1
+            contact.tryInfect(edge.transmissionRisk * quarantineFactor, day, node)
+          }
+        }
+      }
+    }
+  }
+
+  simulate = () => {
+    for(let i = 0; i < this.iterations; i++) {
+      for(let day = 0; day < this.daysToSimulate; day++) {
+        this.updateNodes(day)
+        this.tryTransmission(day)
+      }
+      this.reset()
+    }
+  }
+
+  reset = () => {
+    for (let node of values(this.nodesById)) {
+      node.reset()
+    }
   }
 }

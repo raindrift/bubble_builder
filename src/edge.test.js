@@ -28,4 +28,11 @@ describe('Edge', () => {
     })
   })
 
+  describe('risk', () => {
+    test.todo('returns the transmission risk for this edge')
+
+    describe('with a quarantined member', () => {
+      test.todo('maybe change the edge risk in that case')
+    })
+  })
 })

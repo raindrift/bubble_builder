@@ -48,12 +48,16 @@ const actions = {
   },
 
   async refreshGraph(){
-    // TODO: graph validation goes here
     let newState = {}
-    if(!this.state.graph) {
+    if(this.state.graph) {
+      if(this.state.graphNeedsUpdate) {
+        this.state.graph.simulate()
+      }
+    } else {
       newState.graph = new Graph()
     }
-    newState.graphDirty = false
+
+    newState.graphNeedsUpdate = false
     this.setState(newState)
   },
 
@@ -72,7 +76,8 @@ const actions = {
 
       this.setState({
         loading: false,
-        redirect: redirect
+        redirect: redirect,
+        graphNeedsUpdate: true,
       })
     }
   },

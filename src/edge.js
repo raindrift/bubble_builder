@@ -8,6 +8,7 @@ export default class Edge {
       ids.push(node.id)
     }
     this.id = ids.join('-')
+    this.transmissionRisk = 0.5 // TODO(raindrift): make this a real factor, based on days
   }
 
   adjacent = (thisNode) => {

@@ -55,16 +55,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// function BottomNavButton({ path, label, ...props }){
-//   return <BottomNavigationAction
-//     {...props}
-//     component={Link}
-//     value={label}
-//     label={label}
-//     to={`/app${path}`}
-//   />
-// }
-
 function NavButton({ path, label, icon, selected, ...props }){
   const classes = useStyles();
   const currentPath = `/${window.location.pathname.split('/')[1] || ''}`
