@@ -1,6 +1,6 @@
 import { values } from 'lodash'
 import Edge from './edge'
-import { factors, getFactor } from './factors'
+import { factors, getFactor, factorVal } from './factors'
 import { randomBool } from './util'
 
 export default class Node {
@@ -27,11 +27,10 @@ export default class Node {
     // reset variables that persist across simulations
     this.firstInfectedDay = []
     this.infectedBy = []
-    this.iterations = 0
 
     // calculate risk from inputs
-    const risk_per_day = factors.cases.value / factors.population.value * factors.under_reported_by.multiplier
-    this.communityRisk = risk_per_day * factors.jobs[this.details.job].multiplier
+    const risk_per_day = (factorVal('cases') / factorVal('population')) * factorVal('under_reported_by')
+    this.communityRisk = risk_per_day * getFactor('jobs')[this.details.job].multiplier
   }
 
   // Graph construction methods
@@ -66,10 +65,10 @@ export default class Node {
     }
 
     this.tryQuarantine(day)
-    this.iterations++ // independent iteration counter
   }
 
   tryInfect = (risk, day, from) => {
+    if(this.infected) return null
     this.infected = randomBool(risk)
     if(this.infected) {
       this.firstInfectedDay.push(day)
@@ -79,15 +78,12 @@ export default class Node {
 
   tryQuarantine = (day) => {
     if(!this.infected || this.quarantined) return null
-    const symptomaticRate = getFactor('symptomatic_rate').multiplier
-    const symptomTimeline = getFactor('symptom_timeline')
-
     // if not present, assumed to be 1
-    let symptomProbability = symptomTimeline.values[this.infectionAge] || 1.0
-    this.quarantined = randomBool(symptomProbability * symptomaticRate)
+    let symptomProbability = getFactor('symptom_timeline').values[this.infectionAge] || 1.0
+    this.quarantined = randomBool(symptomProbability * factorVal('symptomatic_rate'))
   }
 
-  totalRisk = () => {
-    return this.firstInfectedDay.length / this.iterations
+  totalRisk = (iterations) => {
+    return (this.firstInfectedDay.length / iterations)
   }
 }

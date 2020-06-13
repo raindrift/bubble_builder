@@ -68,3 +68,9 @@ export const factors = {
 export function getFactor(name) {
   return factors[name]
 }
+
+export function factorVal(name) {
+  if(factors[name]) {
+    return factors[name].multiplier || factors[name].value
+  }
+}

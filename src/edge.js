@@ -1,6 +1,7 @@
+import { factorVal } from './factors'
+
 export default class Edge {
   constructor({nodes, details}) {
-    this.details = details
     this.nodes = new Set()
     let ids = []
     for (let node of nodes) {
@@ -8,7 +9,10 @@ export default class Edge {
       ids.push(node.id)
     }
     this.id = ids.join('-')
-    this.transmissionRisk = 0.5 // TODO(raindrift): make this a real factor, based on days
+
+    details.days_per_week = details.days_per_week || 7
+    this.details = details
+    this.transmissionRisk = factorVal('transmission_risk') * (details.days_per_week / 7)
   }
 
   adjacent = (thisNode) => {
