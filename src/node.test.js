@@ -127,6 +127,24 @@ describe('Node', () => {
       expect(infectedCount).toBeGreaterThan(6300)
       expect(infectedCount).toBeLessThan(6700)
     })
+
+    it('gives reasonable results with a large population', () => {
+      let infectedCount = 0
+      alice.communityRisk = 3660 / 39500000
+      for (let i = 0; i < 10000; i++) {
+        for (let day = 0; day < 10; day++) {
+          alice.stepInfection(day)
+          if(alice.infected) {
+            infectedCount++
+            break
+          }
+        }
+        alice.reset()
+      }
+      // the stddev for this is fairly high
+      expect(infectedCount).toBeGreaterThan(1)
+      expect(infectedCount).toBeLessThan(20)
+    })
   })
 
   describe('tryQuarantine', () => {

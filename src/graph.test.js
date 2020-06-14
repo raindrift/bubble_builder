@@ -118,6 +118,7 @@ describe('Graph', () => {
         },
         transmission_risk: { value: 0.5 },
       })
+      graph.resetAll() // re-read factors form the spy
 
       bob.addEdge({node: alice, details: { days_per_week: 7 } })
       bob.addEdge({node: charles, details: { days_per_week: 1 } })

@@ -51,6 +51,7 @@ const actions = {
     let newState = {}
     if(this.state.graph) {
       if(this.state.graphNeedsUpdate) {
+        this.state.graph.resetAll()
         this.state.graph.simulate()
       }
     } else {

@@ -1,15 +1,15 @@
 export const factors = {
   cases: {
-    title: 'USA new cases/day',
-    value: 19891,
+    title: 'CA new cases/day',
+    value: 3660,
   },
   population: {
     title: 'USA population',
-    value: 328000000,
+    value: 39500000,
   },
   under_reported_by: {
     title: 'The rate at which under-reporting happens',
-    multiplier: 5,  // 5x under-reporting
+    multiplier: 1,  // 1x under-reporting (for now) (TODO)
   },
   symptomatic_rate: {
     title: 'Percentage of infected who show symptoms',

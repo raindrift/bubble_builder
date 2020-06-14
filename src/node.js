@@ -1,6 +1,6 @@
 import { values } from 'lodash'
 import Edge from './edge'
-import { factors, getFactor, factorVal } from './factors'
+import { getFactor, factorVal } from './factors'
 import { randomBool } from './util'
 
 export default class Node {

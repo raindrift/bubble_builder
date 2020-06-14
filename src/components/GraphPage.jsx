@@ -21,7 +21,9 @@ export default class GraphPage extends Component {
     console.dir(graph)
 
     const nodeList = map(graph.nodes(), (node) => {
-      return <ForceGraphNode node={{ id: node.id, label: node.details.name }} fill="red" />
+      const riskPercent = (node.totalRisk(graph.iterations) * 100).toFixed(2)
+      const label = `${node.details.name} ${riskPercent}%`
+      return <ForceGraphNode node={{ id: node.id, label }} fill="red" />
     })
 
     const edgeList = map(graph.edges(), (edge) => {
